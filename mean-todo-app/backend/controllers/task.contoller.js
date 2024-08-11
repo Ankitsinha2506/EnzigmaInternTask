@@ -4,7 +4,7 @@ import Task from "../models/task.model.js";
 export const getTask = async (req, res) => {
     try {
         const task = await Task.find();
-        res.status(200).json({message: "Data fetched Successfully", task})
+        res.status(200).json({ message: "Data fetched Successfully", task })
 
     } catch (error) {
         console.log("Error: " + error);
@@ -47,11 +47,23 @@ export const deleteTask = async (req, res) => {
     try {
         const { id } = req.params;
         const task = await Task.findByIdAndDelete(id);
-        res.status(200).json({ message: "Task Deleted Successfully", task});
+        res.status(200).json({ message: "Task Deleted Successfully", task });
     }
     catch (error) {
         console.log("Error: " + error);
         res.status(500).json({ error: "An error occurred while deleting the task." })
     }
-   
+
+}
+// APIs for findById
+export const getTaskById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findById(id);
+        res.status(200).json({ message: "Task Found Successfully", task });
+    }
+    catch (error) {
+        console.log("Error: " + error);
+        res.status(500).json({ error: "An error occurred while finding the task" });
+    }
 }
