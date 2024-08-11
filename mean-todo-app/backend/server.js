@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import taskRoute from './routes/taskRouter.js'
+
 const app = express();
 app.use(express.json());
 
@@ -38,6 +40,9 @@ try {
     console.log("Error Connecting to MongoDB " + error);
 }
 */
+
+// Defining Routes.
+app.use("/task", taskRoute);
 
 // App listening.
 app.listen(PORT, () => {
