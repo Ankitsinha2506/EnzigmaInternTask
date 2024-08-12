@@ -28,15 +28,19 @@ export const addTask = async (req, res) => {
 //APIs for update task.
 export const updateTask = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { title, description, status, createdAt, updatedAt } = req.body;
-        const task = await Task.findByIdAndUpdate(id, { title, description, status, createdAt, updatedAt },
-            { new: true });
-        res.status(200).json({ message: "Task Updated Successfully", task });
+        const taskId = req.params.id;
+        const { assignedTo, status, dueDate, priority, comment } = req.body;
+        const updatedTask = await Task.findByIdAndUpdate(taskId, {
+            assignedTo, status, dueDate,
+            priority, comment
+        }, { new: true });
+        res.status(200).json({ message: "Task Updated Successfully", updatedTask });
     }
     catch (error) {
         console.log("Error: " + error);
-        res.status(500).json({ error: "An error occurred while updating the task" });
+        res.status(500).json({
+            error: "An error occurred while updating the task", error
+        });
     }
 }
 
