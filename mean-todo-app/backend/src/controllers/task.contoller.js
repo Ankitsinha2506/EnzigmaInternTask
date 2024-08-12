@@ -1,14 +1,12 @@
 import Task from "../models/task.model.js";
 
 // Fetch All Task.
-export const getTask = async (req, res) => {
+export const retriveAllTask = async (req, res) => {
     try {
-        const task = await Task.find();
-        res.status(200).json({ message: "Data fetched Successfully", task })
-
+        const allTask = await Task.find();
+        res.status(200).json({ message: "All Tasks retrived Successfully....", allTask });
     } catch (error) {
-        console.log("Error: " + error);
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: "Error in retriving all tasks", error });
     }
 }
 
@@ -16,14 +14,14 @@ export const getTask = async (req, res) => {
 export const addTask = async (req, res) => {
 
     try {
-        const { title, description, status, createdAt, updatedAt } = req.body;
-        const newTask = new Task({ title, description, createdAt, updatedAt });
+        const { assignedTo, status, dueDate, priority, comment } = req.body;
+        const newTask = new Task({ assignedTo, status, dueDate, priority, comment });
         await newTask.save();
         res.status(201).json({ message: "Task Added Successfully", newTask });
     }
     catch (error) {
         console.log("Error: " + error);
-        res.status(500).json({ error: "An error occurred while adding the task" });
+        res.status(500).json({ error: "An error occurred while adding the task", error });
     }
 }
 

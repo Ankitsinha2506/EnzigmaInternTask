@@ -4,10 +4,11 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import taskRoute from './routes/taskRouter.js'
+import taskRoute from './src/routes/taskRouter.js'
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT = 4000;
 
