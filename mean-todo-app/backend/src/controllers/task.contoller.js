@@ -45,17 +45,19 @@ export const updateTask = async (req, res) => {
 }
 
 // APIs for Delete Task.
-export const deleteTask = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const task = await Task.findByIdAndDelete(id);
-        res.status(200).json({ message: "Task Deleted Successfully", task });
-    }
-    catch (error) {
+export const deleteTask = async(req, res)=>{
+    try{
+        const taskId = req.params.id;
+        const task = await Task.findByIdAndDelete(taskId);
+        if(!task) {
+            res.status(404).json({error: "Task not found..."})
+        }
+        await task.deleteOne()
+        res.status(200).json({message: "Task deleted Successfully..."})
+    } catch(error)  {
         console.log("Error: " + error);
-        res.status(500).json({ error: "An error occurred while deleting the task." })
+        res.status(500).json({error: "An error occurred while deleting the task", error});
     }
-
 }
 // APIs for findById
 export const getTaskById = async (req, res) => {
