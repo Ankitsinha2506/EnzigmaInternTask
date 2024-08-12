@@ -45,29 +45,31 @@ export const updateTask = async (req, res) => {
 }
 
 // APIs for Delete Task.
-export const deleteTask = async(req, res)=>{
-    try{
+export const deleteTask = async (req, res) => {
+    try {
         const taskId = req.params.id;
         const task = await Task.findByIdAndDelete(taskId);
-        if(!task) {
-            res.status(404).json({error: "Task not found..."})
+        if (!task) {
+            res.status(404).json({ error: "Task not found..." })
         }
         await task.deleteOne()
-        res.status(200).json({message: "Task deleted Successfully..."})
-    } catch(error)  {
+        res.status(200).json({ message: "Task deleted Successfully..." })
+    } catch (error) {
         console.log("Error: " + error);
-        res.status(500).json({error: "An error occurred while deleting the task", error});
+        res.status(500).json({ error: "An error occurred while deleting the task", error });
     }
 }
 // APIs for findById
 export const getTaskById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const task = await Task.findById(id);
-        res.status(200).json({ message: "Task Found Successfully", task });
-    }
-    catch (error) {
+        const taskId = req.params.id;
+        const task = await Task.findById(taskId);
+        if (!task) {
+            res.status(404).json({ error: "Task not found..." })
+        }
+        res.status(200).json({ task })
+    } catch (error) {
         console.log("Error: " + error);
-        res.status(500).json({ error: "An error occurred while finding the task" });
+        res.status(500).json({ error: "An error occurred while finding the task", error })
     }
 }
